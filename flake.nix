@@ -88,7 +88,9 @@
                   default = cfg.device;
                 };
                 package = lib.mkPackageOption pkgs "miryoku_kmonad" {
-                  example = pkgs.miryoku_kmonad.override { makeFlags = [ "MIRYOKU_ALPHAS=QWERTY" ]; };
+                  example = pkgs.miryoku_kmonad.overrideAttrs (old: {
+                    makeFlags = old.makeFlags ++ [ "MIRYOKU_ALPHAS=QWERTY" ];
+                  });
                 };
               };
             };
