@@ -48,6 +48,7 @@
             pname = "miryoku_kmonad";
             version = "0.1.0";
             src = "${self}/src";
+            makeFlags = [ ];
             installPhase = ''
               mkdir -p $out
               cp $src/result/miryoku_kmonad.kbd $out
