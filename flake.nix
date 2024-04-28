@@ -51,7 +51,7 @@
             makeFlags = [ ];
             installPhase = ''
               mkdir -p $out
-              cp $src/result/miryoku_kmonad.kbd $out
+              cp $src/build/miryoku_kmonad.kbd $out
             '';
           };
           packages.default = self'.packages.miryoku_kmonad;
