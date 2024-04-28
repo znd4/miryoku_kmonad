@@ -83,7 +83,7 @@
               services.miryoku_kmonad = {
                 enable = lib.mkEnableOption "miryoku_kmonad";
                 device = lib.mkOption {
-                  type = lib.types.string;
+                  type = lib.types.path;
                   description = ''
                     The "device file" for your keyboard, e.g. will be in output
                     of `ls /dev/input/by-id`.
