@@ -48,7 +48,7 @@
             pname = "miryoku_kmonad";
             version = "0.1.0";
             src = "${self}/src";
-            makeFlags = [ ];
+            buildFlags = [ ];
             installPhase = ''
               mkdir -p $out
               cp $src/build/miryoku_kmonad.kbd $out
@@ -90,7 +90,7 @@
                 };
                 package = lib.mkPackageOption pkgs "miryoku_kmonad" {
                   example = pkgs.miryoku_kmonad.overrideAttrs (old: {
-                    makeFlags = old.makeFlags ++ [ "MIRYOKU_ALPHAS=QWERTY" ];
+                    buildFlags = old.buildFlags ++ [ "MIRYOKU_ALPHAS=QWERTY" ];
                   });
                 };
               };
