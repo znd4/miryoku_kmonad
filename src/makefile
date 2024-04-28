@@ -3,11 +3,14 @@
 
 source := $(wildcard *.kbd.cpp)
 
-targets := $(source:%.kbd.cpp=build/%.kbd)
+BUILD_DIR ?= build
+
+targets := $(source:%.kbd.cpp=$(BUILD_DIR)/%.kbd)
 
 all: $(targets)
 
-build/%.kbd: %.kbd.cpp FORCE
+
+$(BUILD_DIR)/%.kbd: %.kbd.cpp FORCE
 	cpp -P $(OPT_DEFS) $< | \
 	sed \
 	  -e "s/U_QUOT/'/g" \
