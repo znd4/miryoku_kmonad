@@ -47,17 +47,10 @@
           packages.miryoku_kmonad = pkgs.stdenv.mkDerivation {
             pname = "miryoku_kmonad";
             version = "0.1.0";
-            src = self;
-            nativeBuildInputs = with pkgs; [
-              gnumake
-              # sh
-              gcc
-              gnused
-            ];
+            src = "${self}/src";
             installPhase = ''
               mkdir -p $out
-              cd $src/src
-              make BUILD_DIR=$out
+              cp $src/result/miryoku_kmonad.kbd $out
             '';
           };
           packages.default = self'.packages.miryoku_kmonad;
