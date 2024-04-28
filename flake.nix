@@ -99,7 +99,7 @@
                 keyboards = {
                   "${cfg.device}" = {
                     device = cfg.device;
-                    config = builtins.readFile "${pkgs.miryoku_kmonad}/miryoku_kmonad.kbd1";
+                    config = builtins.readFile "${pkgs.miryoku_kmonad}/miryoku_kmonad.kbd";
                   };
                 };
               };
