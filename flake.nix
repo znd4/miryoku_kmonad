@@ -92,8 +92,9 @@
                 };
               };
             };
+            nixpkgs.overlays = [ self.overlays.default ];
             config = lib.mkIf cfg.enable {
-              nixpkgs.overlays = [ self.overlays.default ];
+              environment.systemPackages = with pkgs; [ miryoku_kmonad ];
               services.kmonad = {
                 enable = true;
                 keyboards = {
