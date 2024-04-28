@@ -93,7 +93,7 @@
               };
             };
             config = lib.mkIf cfg.enable {
-              nixpkgs.overlays = [ self.${system}.overlays.default ];
+              nixpkgs.overlays = [ self.overlays.default ];
               services.kmonad = {
                 enable = true;
                 keyboards = {
