@@ -4,6 +4,10 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    kmonad = {
+      url = "git+https://github.com/kmonad/kmonad?submodules=1&dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -14,6 +18,7 @@
         # 1. Add foo to inputs
         # 2. Add foo as a parameter to the outputs function
         # 3. Add here: foo.flakeModule
+        inputs.flake-parts.flakeModules.easyOverlay
       ];
       systems = [
         "x86_64-linux"
@@ -35,8 +40,11 @@
           # module parameters provide easy access to attributes of the same
           # system.
 
+          overlayAttrs = {
+            inherit (config.packages) miryoku_kmonad;
+          };
           # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-          packages.miryoku_kmonad = pkgs.stdenv.mkDerivation rec {
+          packages.miryoku_kmonad = pkgs.stdenv.mkDerivation {
             pname = "miryoku_kmonad";
             version = "0.1.0";
             src = self;
@@ -50,7 +58,6 @@
               mkdir -p $out
               cd $src/src
               make BUILD_DIR=$out
-              # cp $src/src/build/miryoku_kmonad.kbd $out/miryoku_kmonad.kbd
             '';
           };
           packages.default = self'.packages.miryoku_kmonad;
@@ -59,6 +66,45 @@
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although
         # those are more easily expressed in perSystem.
+        nixosModules.default =
+          {
+            lib,
+            config,
+            pkgs,
+            system,
+            ...
+          }:
+          let
+            cfg = config.packages.miryoku_kmonad;
+          in
+          {
+            imports = [ inputs.kmonad.nixosModules.default ];
+            options = {
+              services.miryoku_kmonad = {
+                enable = lib.mkEnableOption "miryoku_kmonad";
+                device = lib.mkOption {
+                  type = lib.types.string;
+                  description = ''
+                    The "device file" for your keyboard, e.g. will be in output
+                    of `ls /dev/input/by-id`.
+                    See https://github.com/kmonad/kmonad/blob/master/keymap/tutorial.kbd
+                  '';
+                };
+              };
+            };
+            config = lib.mkIf cfg.enable {
+              nixpkgs.overlays = [ self.overlays.${system}.default ];
+              services.kmonad = {
+                enable = true;
+                keyboards = {
+                  "${cfg.device}" = {
+                    device = cfg.device;
+                    config = "${pkgs.miryoku_kmonad}/miryoku_kmonad.kbd";
+                  };
+                };
+              };
+            };
+          };
       };
     };
 }
