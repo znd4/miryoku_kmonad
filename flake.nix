@@ -75,7 +75,7 @@
             ...
           }:
           let
-            cfg = config.packages.miryoku_kmonad;
+            cfg = config.services.miryoku_kmonad;
           in
           {
             imports = [ inputs.kmonad.nixosModules.default ];
