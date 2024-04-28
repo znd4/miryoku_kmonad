@@ -90,6 +90,10 @@
                     See https://github.com/kmonad/kmonad/blob/master/keymap/tutorial.kbd
                   '';
                 };
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  default = cfg.device;
+                };
               };
             };
             config = lib.mkIf cfg.enable {
@@ -98,9 +102,10 @@
               services.kmonad = {
                 enable = true;
                 keyboards = {
-                  "${cfg.device}" = {
+                  "${cfg.name}" = {
                     device = cfg.device;
                     config = builtins.readFile "${pkgs.miryoku_kmonad}/miryoku_kmonad.kbd";
+                    name = cfg.name;
                   };
                 };
               };
