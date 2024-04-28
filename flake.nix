@@ -87,6 +87,9 @@
                   type = lib.types.str;
                   default = cfg.device;
                 };
+                package = lib.mkPackageOption pkgs "miryoku_kmonad" {
+                  example = pkgs.miryoku_kmonad.override { makeFlags = [ "MIRYOKU_ALPHAS=QWERTY" ]; };
+                };
               };
             };
             config = lib.mkIf cfg.enable {
@@ -97,7 +100,7 @@
                 keyboards = {
                   "${cfg.name}" = {
                     device = cfg.device;
-                    config = builtins.readFile "${pkgs.miryoku_kmonad}/miryoku_kmonad.kbd";
+                    config = builtins.readFile "${cfg.package}/miryoku_kmonad.kbd";
                     name = cfg.name;
                   };
                 };
