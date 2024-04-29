@@ -46,7 +46,7 @@
           # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
           packages.miryoku_kmonad = pkgs.stdenv.mkDerivation {
             pname = "miryoku_kmonad";
-            version = "0.1.0";
+            name = "miryoku_kmonad";
             src = "${self}/src";
             buildFlags = [ ];
             installPhase = ''
