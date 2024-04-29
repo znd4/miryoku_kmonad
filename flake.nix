@@ -48,7 +48,10 @@
             pname = "miryoku_kmonad";
             name = "miryoku_kmonad";
             src = "${self}/src";
-            buildFlags = [ ];
+            buildFlags = [
+              "MIRYOKU_ALPHAS=QWERTY"
+              "MIRYOKU_NAV=VI"
+            ];
             installPhase = ''
               mkdir -p $out
               cp $src/build/miryoku_kmonad.kbd $out
